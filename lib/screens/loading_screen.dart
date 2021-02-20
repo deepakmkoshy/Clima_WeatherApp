@@ -1,6 +1,11 @@
 import 'package:clima/services/location.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
+import 'dart:io';
+import 'dart:async';
+
+const apiKey = '3ba056cfdcec9d5ea1b6b685aec10b86';
+// const uri = ''
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -8,11 +13,20 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  double lat;
+  double lon;
   void getLocation() async {
     Location location = Location();
     await location.getCurrentLocation();
-    print(location.latitude);
-    print(location.longitude);
+    lat = location.latitude;
+    lon = location.longitude;
+    getData();
+  }
+
+  Future<void> getData() async {
+    http.Response response = await http.get(
+        'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$apiKey');
+    print(response.body);
   }
 
   @override
