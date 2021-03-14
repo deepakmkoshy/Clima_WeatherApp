@@ -3,10 +3,10 @@ import 'package:geolocator/geolocator.dart';
 class Location {
   double latitude;
   double longitude;
+  
   Future<void> getCurrentLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
-
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       print('Location services are disabled.');
